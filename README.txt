@@ -9,3 +9,4 @@ TODO:
 I left it as is for now (kinda low priority) since there is no requirement for this.
 Solution is to leave purging only for GET request. In this case POST will only write data to the end of the queue and GET will purge date from the beginning of the queue.
 It's possible to separate both parties from each other and let them work at the same time.
+The problem of this solution is that it will slow down GET requests and this was the biggest concern in task definition.
