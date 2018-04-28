@@ -4,6 +4,10 @@ I raised this concert to Linda Post when she shared this task with me but she di
 If we need to preserve precision we should go with BigDecimal type but it will increase memory and performance consumption.
 Since I didn't receive any reply I went with what was requested.
 
+Run "gradle build" command to build the project and run unit tests.
+Run "gradle integrationTest" command to run integration tests.
+Run "java -jar build/libs/statistics-1.0-SNAPSHOT.jar" command to run the application.
+
 TODO:
 1 Improve parallelization of work. Now all business logic is formally single threaded because of synchronized blocks in TimedStatisticsCalculator.
 I left it as is for now (kinda low priority) since there is no requirement for this.

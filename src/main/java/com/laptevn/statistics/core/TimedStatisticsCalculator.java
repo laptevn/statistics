@@ -2,6 +2,8 @@ package com.laptevn.statistics.core;
 
 import com.laptevn.statistics.entities.Statistic;
 import com.laptevn.statistics.entities.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -18,6 +20,8 @@ import java.util.Optional;
  */
 @Component
 public class TimedStatisticsCalculator {
+    private final Logger logger = LoggerFactory.getLogger(TimedStatisticsCalculator.class);
+
     private final StatisticsCalculator statisticsCalculator;
     private final long timeLimitInMilliseconds;
     private final TimestampProvider timestampProvider;
@@ -39,6 +43,7 @@ public class TimedStatisticsCalculator {
 
             transactions.addLast(transaction);
             statisticsCalculator.add(transaction.getAmount());
+            logger.info("Added new transaction");
         }
     }
 
@@ -50,6 +55,8 @@ public class TimedStatisticsCalculator {
     }
 
     private void validateTransaction(Transaction transaction) throws OutdatedTransactionException {
+        logger.info("Validating transaction");
+
         if (isTransactionOutdated(transaction)) {
             throw new OutdatedTransactionException(String.format("%d is outdated transaction", transaction.getTimestamp()));
         }
@@ -57,6 +64,8 @@ public class TimedStatisticsCalculator {
         if (transaction.getTimestamp() > timestampProvider.getCurrentTimestamp()) {
             throw new IllegalArgumentException("Transaction cannot be from future");
         }
+
+        logger.info("Transaction is fine");
     }
 
     private boolean isTransactionOutdated(Transaction transaction) {
@@ -73,6 +82,7 @@ public class TimedStatisticsCalculator {
 
             limitPosition.remove();
             statisticsCalculator.remove(transaction.getAmount());
+            logger.info("Removed outdated transaction");
         }
     }
 

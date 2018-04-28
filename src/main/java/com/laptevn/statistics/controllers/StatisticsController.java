@@ -2,6 +2,8 @@ package com.laptevn.statistics.controllers;
 
 import com.laptevn.statistics.core.TimedStatisticsCalculator;
 import com.laptevn.statistics.entities.Statistic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,6 +19,7 @@ import java.util.Optional;
  */
 @RestController
 public class StatisticsController {
+    private final Logger logger = LoggerFactory.getLogger(StatisticsController.class);
     private final TimedStatisticsCalculator statisticsCalculator;
 
     @Autowired
@@ -26,7 +29,10 @@ public class StatisticsController {
 
     @RequestMapping(value = "/statistics", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getStatistics() {
+        logger.info("Getting statistics");
         Optional<Statistic> statistic = statisticsCalculator.getStatistic();
-        return statistic.isPresent() ? new ResponseEntity(statistic.get(), HttpStatus.OK) : new ResponseEntity(HttpStatus.NO_CONTENT);
+
+        logger.info("Statistics is present? - {}", statistic.isPresent());
+        return statistic.isPresent() ? new ResponseEntity<>(statistic.get(), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
