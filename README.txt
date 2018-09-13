@@ -1,9 +1,7 @@
 See task.pdf for problem definition.
 Note:
 Task definition states double is used as data type for money values. This lead to some data lost since double doesn't handle values like 0.1 well.
-I raised this concert to Linda Post when she shared this task with me but she didn't reply.
 If we need to preserve precision we should go with BigDecimal type but it will increase memory and performance consumption.
-Since I didn't receive any reply I went with what was requested.
 
 Run "gradle build" command to build the project and run unit tests.
 Run "gradle integrationTest" command to run integration tests.
